@@ -185,10 +185,28 @@ class PodHookHandler:
                 )
             )
         )
+
+        self.pod.spec.volumes.append(
+            client.V1Volume(
+                name=f'scratch-{self.spawner.user.name}',
+                host_path=client.V1HostPathVolumeSource(
+                    path=f'/scratch/{self.spawner.user.name}',
+                    type='DirectoryOrCreate'
+                )
+            )
+        )
+
         side_container_volume_mounts.append(
             client.V1VolumeMount(
                 name='shared-pod-volume',
                 mount_path='/srv/notebook'
+            )
+        )
+
+        notebook_container.volume_mounts.append(
+            client.V1VolumeMount(
+                name=f'scratch-{self.spawner.user.name}',
+                mount_path=f"/scratch/{self.spawner.user.name}",
             )
         )
 
@@ -199,6 +217,7 @@ class PodHookHandler:
                 mount_path='/srv/notebook'
             )
         )
+
 
         # pod volume to mount generated eos tokens and
         # side-container volume mount with generated tokens
@@ -672,7 +691,7 @@ c.SwanKubeSpawner.volume_mounts = [
 ]
 
 # set home directory to EOS
-c.SwanKubeSpawner.local_home = False
+c.SwanKubeSpawner.local_home = True
 
 c.SwanKubeSpawner.volumes = [
     client.V1Volume(
