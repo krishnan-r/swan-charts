@@ -2,11 +2,9 @@ jupyterhub:
   singleuser:
     uid: 0
     fsGid: 0
-    storage:
-      type: none
     image:
       pullPolicy: Always
-      name: "gitlab-registry.cern.ch/swan/docker-images/systemuser"
+      name: "gitlab-registry.cern.ch/rcastell/publicregistry/systemuser"
       tag: "v5.4.1"
     cloudMetadata:
       enabled: true
@@ -41,8 +39,8 @@ jupyterhub:
     readinessProbe:
       enabled: false
     image:
-      name: "gitlab-registry.cern.ch/swan/docker-images/jupyterhub"
-      tag: "1.1.0-cern4"
+      name: "gitlab-registry.cern.ch/rcastell/publicregistry/jupyterhub"
+      tag: "1.1.0-cern5"
       pullPolicy: "Always"
     extraVolumeMounts:
       - name: swan-jh
