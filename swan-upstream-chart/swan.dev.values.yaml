@@ -5,16 +5,20 @@ jupyterhub:
     image:
       pullPolicy: Always
       name: "gitlab-registry.cern.ch/rcastell/publicregistry/systemuser"
-      tag: "v5.4.1"
+      tag: "normal1"
     cloudMetadata:
       enabled: true
     networkPolicy:
       enabled: false
   proxy:
+    https:
+      hosts: 
+        - swanoci1.cern.ch
+      type: manual
     service:
       type: NodePort
       nodePorts:
-        http: 30080
+        https: 30080
     secretToken: ca4ac8ac414707020a7db74341eaf25de01f6d0bd73f4ceb9d2a197f1e3b9f32
     chp:
       image:
@@ -39,8 +43,8 @@ jupyterhub:
     readinessProbe:
       enabled: false
     image:
-      name: "gitlab-registry.cern.ch/rcastell/publicregistry/jupyterhub"
-      tag: "1.1.0-cern5"
+      name: "gitlab-registry.cern.ch/swan/docker-images/jupyterhub"
+      tag: "1.1.0-cern5-test"
       pullPolicy: "Always"
     extraVolumeMounts:
       - name: swan-jh
