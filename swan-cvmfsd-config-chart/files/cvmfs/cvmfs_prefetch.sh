@@ -12,19 +12,19 @@ log_info "Started cvmfs lcg prefetching.."
 LATEST_LCG="/cvmfs/sft.cern.ch/lcg/views/LCG_97/x86_64-centos7-gcc8-opt/setup.sh"
 if [ -f "$LATEST_LCG" ]; then
     # Get ipykernel in subshell and get return code
-    (source $LATEST_LCG && (timeout 10s python -m ipykernel > /dev/null 2>&1 || true ))
+    (source $LATEST_LCG && (timeout 100s python -m ipykernel > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LATEST_LCG ipykernel failed"
     fi
 
     # Get JupyROOT.kernel.rootkernel in subshell and get return code
-    (source $LATEST_LCG && ( timeout 20s python -m JupyROOT.kernel.rootkernel > /dev/null 2>&1 || true ))
+    (source $LATEST_LCG && ( timeout 200s python -m JupyROOT.kernel.rootkernel > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LATEST_LCG JupyROOT.kernel.rootkernel failed"
     fi
 
     # Get Spark in subshell and get return code
-    (source $LATEST_LCG && ( timeout 20s python -c "import pyspark" > /dev/null 2>&1 || true ))
+    (source $LATEST_LCG && ( timeout 200s python -c "import pyspark" > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LATEST_LCG pyspark failed"
     fi
@@ -35,19 +35,19 @@ fi
 LATEST_LCGPython3="/cvmfs/sft.cern.ch/lcg/views/LCG_97python3/x86_64-centos7-gcc8-opt/setup.sh"
 if [ -f "$LATEST_LCGPython3" ]; then
     # Get ipykernel in subshell and get return code
-    (source $LATEST_LCGPython3 && (timeout 10s python -m ipykernel > /dev/null 2>&1 || true ))
+    (source $LATEST_LCGPython3 && (timeout 100s python -m ipykernel > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LATEST_LCGPython3 ipykernel failed"
     fi
 
     # Get JupyROOT.kernel.rootkernel in subshell and get return code
-    (source $LATEST_LCGPython3 && ( timeout 20s python -m JupyROOT.kernel.rootkernel > /dev/null 2>&1 || true ))
+    (source $LATEST_LCGPython3 && ( timeout 200s python -m JupyROOT.kernel.rootkernel > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LATEST_LCGPython3 JupyROOT.kernel.rootkernel failed"
     fi
 
     # Get Spark in subshell and get return code
-    (source $LATEST_LCGPython3 && ( timeout 20s python -c "import pyspark" > /dev/null 2>&1 || true ))
+    (source $LATEST_LCGPython3 && ( timeout 200s python -c "import pyspark" > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LATEST_LCGPython3 pyspark failed"
     fi
@@ -58,24 +58,53 @@ fi
 LCG_NXCALS_SETUP="/cvmfs/sft.cern.ch/lcg/views/LCG_95apython3_nxcals/x86_64-centos7-gcc7-opt/setup.sh"
 if [ -f "$LCG_NXCALS_SETUP" ]; then
     # Get ipykernel in subshell and get return code
-    (source $LCG_NXCALS_SETUP && (timeout 10s python -m ipykernel > /dev/null 2>&1 || true ))
+    (source $LCG_NXCALS_SETUP && (timeout 100s python -m ipykernel > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LCG_NXCALS_SETUP ipykernel failed"
     fi
 
     # Get JupyROOT.kernel.rootkernel in subshell and get return code
-    (source $LCG_NXCALS_SETUP && ( timeout 20s python -m JupyROOT.kernel.rootkernel > /dev/null 2>&1 || true ))
+    (source $LCG_NXCALS_SETUP && ( timeout 200s python -m JupyROOT.kernel.rootkernel > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LCG_NXCALS_SETUP JupyROOT.kernel.rootkernel failed"
     fi
 
     # Get Spark in subshell and get return code
-    (source $LCG_NXCALS_SETUP && ( timeout 20s python -c "import pyspark" > /dev/null 2>&1 || true ))
+    (source $LCG_NXCALS_SETUP && ( timeout 200s python -c "import pyspark" > /dev/null 2>&1 || true ))
     if [ $? -ne 0 ]; then
         log_error "Getting $LCG_NXCALS_SETUP pyspark failed"
     fi
 else
     log_error "Sourcing $LCG_NXCALS_SETUP failed, path not accessible"
+fi
+
+CUDAPython3="/cvmfs/sft.cern.ch/lcg/views/LCG_98py3cu10/x86_64-centos7-gcc8-opt/setup.sh"
+if [ -f "$CUDAPython3" ]; then
+    # Get ipykernel in subshell and get return code
+    (source $CUDAPython3 && (timeout 100s python -m ipykernel > /dev/null 2>&1 || true ))
+    if [ $? -ne 0 ]; then
+        log_error "Getting $CUDAPython3 ipykernel failed"
+    fi
+
+    # Get JupyROOT.kernel.rootkernel in subshell and get return code
+    (source $CUDAPython3 && ( timeout 200s python -m JupyROOT.kernel.rootkernel > /dev/null 2>&1 || true ))
+    if [ $? -ne 0 ]; then
+        log_error "Getting $CUDAPython3 JupyROOT.kernel.rootkernel failed"
+    fi
+
+    # Get Keras in subshell and get return code
+    (source $CUDAPython3 && ( timeout 200s python -c "import keras" > /dev/null 2>&1 || true ))
+    if [ $? -ne 0 ]; then
+        log_error "Getting $CUDAPython3 keras failed"
+    fi
+
+    # Get Spark in subshell and get return code
+    (source $CUDAPython3 && ( timeout 200s python -c "import pyspark" > /dev/null 2>&1 || true ))
+    if [ $? -ne 0 ]; then
+        log_error "Getting $CUDAPython3 pyspark failed"
+    fi
+else
+    log_error "Sourcing $CUDAPython3 failed, path not accessible"
 fi
 
 log_info "Stopped cvmfs lcg prefetching.."
