@@ -4,6 +4,44 @@
     {
       "type": "label",
       "label": {
+        "value": "label-drg",
+        "text": "Development releases (GPU)"
+      }
+    },
+    {
+      "type": "selection",
+      "lcg": {
+        "value": "LCG_98py3cu10",
+        "text": "Cuda 10 Python3"
+      },
+      "platforms": [
+        {
+          "value": "x86_64-centos7-gcc8-opt",
+          "text": "CentOS 7 (gcc8)"
+        }
+      ],
+      "cores": [
+        {
+          "value": "4",
+          "text": "4CPU, 1GPU"
+        }
+      ],
+      "memory": [
+        {
+          "value": "16",
+          "text": "16 GB"
+        }
+      ],
+      "clusters": [
+        {
+          "value": "none",
+          "text": "None"
+        }
+      ]
+    },
+    {
+      "type": "label",
+      "label": {
         "value": "label-rr",
         "text": "Recommended releases (General Purpose)"
       }
@@ -112,20 +150,31 @@
     {
       "type": "label",
       "label": {
-        "value": "label-drg",
-        "text": "Development releases (GPU)"
+        "value": "empty-dr",
+        "text": ""
+      }
+    },
+    {
+      "type": "label",
+      "label": {
+        "value": "label-dr",
+        "text": "Development releases (might be unstable)"
       }
     },
     {
       "type": "selection",
       "lcg": {
-        "value": "LCG_97py3cu10",
-        "text": "Cuda 10 Python3"
+        "value": "dev3cuda/latest",
+        "text": "Cuda Bleeding Edge"
       },
       "platforms": [
         {
           "value": "x86_64-centos7-gcc7-opt",
           "text": "CentOS 7 (gcc7)"
+        },
+        {
+          "value": "x86_64-centos7-gcc62-opt",
+          "text": "CentOS 7 (gcc62)"
         }
       ],
       "cores": [
@@ -146,20 +195,6 @@
           "text": "None"
         }
       ]
-    },
-    {
-      "type": "label",
-      "label": {
-        "value": "empty-dr",
-        "text": ""
-      }
-    },
-    {
-      "type": "label",
-      "label": {
-        "value": "label-dr",
-        "text": "Development releases (might be unstable)"
-      }
     },
     {
       "type": "selection",
