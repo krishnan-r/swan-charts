@@ -14,7 +14,7 @@ build:
   image: gitlab-registry.cern.ch/cloud/ciadm
   script:
     - curl -o helm.tar.gz https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz; mkdir -p helm; tar zxvf helm.tar.gz -C helm; cp helm/linux-amd64/helm /usr/local/bin; rm -rf helm*
-    - for chart in $(ls -d */Chart.yaml | xargs dirname); do helm dep update ${chart}; helm lint ${chart}; helm package ${chart}; done
+    - CHART=$(echo $CI_COMMIT_TAG | awk -F '@' '{print $1}'); helm dependency update ${CHART}; helm lint ${CHART}; helm package ${CHART}
   except:
     - tags
 
