@@ -50,7 +50,7 @@ trap "rm -f $HADOOP_AUTH_KEYTAB_PATH" EXIT
 rm -f $HADOOP_AUTH_KEYTAB_PATH
 
 SPARKK8S_AUTH_TOKEN_PATH=$(mktemp -p .)
-tbag show --hg swan --file $SPARKK8S_AUTH_TOKEN_PATH hswan
+tbag show --hg swan --file $SPARKK8S_AUTH_TOKEN_PATH spark_k8s_kubeconfig
 SPARKK8S_AUTH_TOKEN_ENCODED=$(base64 -w 0 $SPARKK8S_AUTH_TOKEN_PATH)
 trap "rm -f $SPARKK8S_AUTH_TOKEN_PATH" EXIT
 rm -rf $SPARKK8S_AUTH_TOKEN_PATH
