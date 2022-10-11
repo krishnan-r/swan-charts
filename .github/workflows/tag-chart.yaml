@@ -1,0 +1,100 @@
+# Reusable workflow to tag a single chart and push it to a helm registry
+name: Tag Chart
+run-name: Tag ${{ inputs.bump }} version of ${{ inputs.chart }} by @${{ github.actor }}
+
+permissions:
+  contents: write
+
+on:
+  workflow_call:
+    inputs:
+      chart:
+        description: Name of chart to tag
+        required: true
+        type: string
+      bump:
+        description: "Bump version"
+        required: true
+        default: patch
+        type: string
+      HELM_REPO_BASE_URL:
+        type: string
+        description: Helm repository base url
+        required: true
+
+    secrets:
+      WORKFLOW_ACCESS_TOKEN:
+        description: "A GitHub PAT token with permissions to push to master branch"
+        required: true
+      HELM_REPO_USERNAME:
+        description: "Robot account user for the helm registry"
+        required: true
+      HELM_REPO_PASSWORD:
+        description: "Password for the helm registry"
+        required: true
+
+    outputs:
+      new_version:
+        value: ${{ jobs.publish-chart.outputs.new_version }}
+
+jobs:
+  publish-chart:
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+      new_tag: ${{ steps.version.outputs.new_tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          ref: ${{ github.ref_name }}
+
+      - run: helm dependency update ${{ inputs.chart }}
+
+      - name: Configure git author
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - run: pip install bump2version==1.0.1
+      - name: Calculate next version
+        id: version
+        run: |
+          set -x
+          cd ${{ inputs.chart }}
+          NEW_VERSION="$(bump2version --dry-run ${{ inputs.bump }} --list | grep new_version= |  sed -r s,"^.*=",,)"
+          NEW_TAG="${{ inputs.chart }}@${NEW_VERSION}"
+          echo "::set-output name=new_version::${NEW_VERSION}"
+          echo "::set-output name=new_tag::${NEW_TAG}"
+
+      - name: Bump version and create local commit with tag
+        run: |
+          cd ${{ inputs.chart }}
+          bump2version ${{ inputs.bump }} --verbose
+
+      - name: Push commit + tag to origin
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.WORKFLOW_ACCESS_TOKEN }}
+          tags: true
+
+      - name: Push to helm registry
+        env:
+          HELM_REPO_USERNAME: ${{ secrets.HELM_REPO_USERNAME }}
+          HELM_REPO_PASSWORD: ${{ secrets.HELM_REPO_PASSWORD }}
+        run: |
+          set -x
+          helm plugin install https://github.com/chartmuseum/helm-push
+          helm cm-push ${{ inputs.chart }}/ ${{ inputs.HELM_REPO_BASE_URL }}
+
+  publish-github-release:
+    needs: [publish-chart]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NEW_TAG: ${{ needs.publish-chart.outputs.new_tag }}
+    steps:
+      - name: Create GitHub Release
+        run: gh release create $NEW_TAG --notes "${{ inputs.chart }} $NEW_TAG" --repo ${{ github.repository }}
