@@ -1,0 +1,25 @@
+name: Lint
+
+on:
+  # Allow calling this workflow from other workflows
+  workflow_call:
+  # Allow triggering this workflow manually from the github UI
+  workflow_dispatch:
+  # Lint pull requests
+  # pull_request:
+
+jobs:
+  lint:
+
+    # TODO compile both charts locally and lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: helm version
+      - run: helm dependency update swan && \
+             helm lint swan && \
+             helm package swan
+      - run: |
+            helm dependency update swan-cern && \
+            helm lint swan-cern && \
+            helm package swan-cern
