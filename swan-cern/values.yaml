@@ -57,7 +57,7 @@ swan:
   jupyterhub:
     singleuser:
       memory:
-        guarantee: 4G
+        guarantee: 3G
       cpu:
         guarantee: 1
     hub:
