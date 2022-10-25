@@ -1,9 +1,9 @@
 dependencies:
 - name: swan
-  repository: https://registry.cern.ch/chartrepo/swan
-  version: 0.1.11
+  repository: https://registry.cern.ch/chartrepo/krraghav-test
+  version: 1.0.0
 - name: fluentd
   repository: http://registry.cern.ch/chartrepo/cern
   version: 0.1.5
-digest: sha256:abfcb9ed0ee9135375c35e59712f7fc69a2b14244660a62095f70c9a30be61e9
-generated: "2022-08-26T16:19:13.582037+02:00"
+digest: sha256:91bd41d7753e698e9db0e2158463963f11061b2a045a59d2507be395e065a374
+generated: "2022-10-25T12:42:33.490722465Z"

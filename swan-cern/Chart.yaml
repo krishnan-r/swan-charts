@@ -2,14 +2,14 @@ apiVersion: v2
 #
 name: swan-cern
 type: application
-version: 0.1.11  # set by bump2version
+version: 0.1.11 # set by bump2version
 appVersion: 0.0.3
 #
 description: The chart to deploy SWAN at CERN
 #
 dependencies:
   - name: swan
-    version: 0.1.11
+    version: 1.0.0
     repository: https://registry.cern.ch/chartrepo/krraghav-test
   - name: fluentd
     repository: http://registry.cern.ch/chartrepo/cern
